@@ -8,17 +8,25 @@ class DiskAnalystTui < Formula
   depends_on "python@3.13"
 
   def install
-    python3 = "python3.13"
-    venv = libexec/"venv"
+    python3 = Formula["python@3.13"].opt_bin/"python3.13"
 
-    system python3, "-m", "venv", venv
-    system venv/"bin/pip", "install", "--upgrade", "pip"
-    system venv/"bin/pip", "install", "."
+    # Create virtualenv with pip
+    system python3, "-m", "venv", libexec
+    venv_pip = libexec/"bin/pip"
 
-    (bin/"disk-analyst").write_env_script(venv/"bin/disk-analyst", PATH: "#{venv}/bin:$PATH")
+    # Install build deps and package
+    system venv_pip, "install", "hatchling"
+    system venv_pip, "install", "."
+
+    # Create wrapper script
+    (bin/"disk-analyst").write <<~BASH
+      #!/bin/bash
+      exec "#{libexec}/bin/disk-analyst" "$@"
+    BASH
+    chmod 0755, bin/"disk-analyst"
   end
 
   test do
-    assert_match "usage", shell_output("#{bin}/disk-analyst --help")
+    assert_match "macOS system manager", shell_output("#{bin}/disk-analyst --help")
   end
 end
