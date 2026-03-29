@@ -2,7 +2,7 @@ class DiskAnalystTui < Formula
   desc "TUI system manager for macOS — disk analysis, smart cleanup, and package management"
   homepage "https://github.com/niuton/disk-analyst-tui"
   url "https://github.com/niuton/disk-analyst-tui/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "507e4735c2a1ddca99f37e38394ee9f8eeed1ecc9a33f125f1c259dd53d627b5"
+  sha256 "4ac77ba1f84147053aa19fa1b2f1eeea52437bf61eca6d606bec32b1f8a96cfc"
   license "MIT"
 
   depends_on "python@3.13"
